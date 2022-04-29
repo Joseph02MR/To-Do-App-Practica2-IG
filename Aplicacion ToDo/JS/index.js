@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('table');
     const alert = document.getElementById('alert');
     const btn = document.getElementById('add');
+    let id = 1;
+
+    function removeToDo(id) {
+        document.getElementById(id).remove();
+    }
 
     function addTodo() {
         if (title.value === '' || description.value === '') {
@@ -13,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return
         }
         alert.classList.add('d-none');
-        const row = table.insertRow()
+        const row = table.insertRow();
+        row.setAttribute('id', id++);
         row.innerHTML = `
             <td> ${title.value} </td> 
             <td> ${description.value} </td> 
@@ -24,11 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="btn btn-primary mb-1">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button class="btn btn-danger mb-1 ml-1">
-                  <i class="fa fa-trash"></i>
-                </button>
             </td>
         `;
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('btn', 'btn-danger', 'mb-1');
+        removeButton.innerHTML = '<i class="fa fa-trash"></i>';
+        removeButton.onclick = function(e) {
+            removeToDo(row.getAttribute('id'));
+        }
+        row.children[3].appendChild(removeButton);
+
     }
     btn.onclick = addTodo;
 });
