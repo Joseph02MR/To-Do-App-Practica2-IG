@@ -4,8 +4,12 @@ export default class View{
         this.model = null;
         this.table = document.getElementById('table');
         this.AddTodoForm = new AddTodo();
-
         this.AddTodoForm.onClick((title,description) => this.addTodo(title,description));
+    }
+  
+    render() {
+        const todos = this.model.getTodos();
+        todos.forEach((todo) => this.createRow(todo));
     }
 
     setModel(model){
